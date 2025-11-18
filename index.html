@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hamza Shabbir (Ansari)</title>
+  <!-- Favicon -->
+<link rel="icon" type="image/png" href="./image/my dp-modified.png">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #000000;
+      --accent-purple: #8a4fff;
+      --accent-aqua: #00e5ff;
+      --accent-dark: #5a189a;
+      --text: #f2f2f2;
+      --glass: rgba(255, 255, 255, 0.05);
+    }
+    body{
+      cursor: url('image/cursor.png'), auto;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* Animated Background - Bilkul Safe */
+    .background {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    #particles {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .shape {
+      position: absolute;
+      filter: blur(80px);
+      opacity: 0.45;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .circle { border-radius: 50%; }
+    .diamond { transform: rotate(45deg); }
+
+    .s1, .s3, .s5 { background: radial-gradient(circle, #0c2abe); }
+    .s2, .s4, .s6 { background: radial-gradient(circle, #5a189a); }
+
+    .s1 { width: 140px; height: 140px; top: 5%; left: -10%; animation: moveLR 18s linear infinite; }
+    .s2 { width: 160px; height: 160px; top: 60%; left: 110%; animation: moveRL 24s linear infinite; }
+    .s3 { width: 120px; height: 120px; top: -15%; left: 40%; animation: moveTB 20s linear infinite; }
+    .s4 { width: 150px; height: 150px; top: 110%; left: 65%; animation: moveBT 26s linear infinite; }
+    .s5 { width: 130px; height: 130px; top: 25%; left: 85%; animation: moveDiag1 22s linear infinite; }
+    .s6 { width: 110px; height: 110px; top: 85%; left: -15%; animation: moveDiag2 24s linear infinite; }
+
+    @keyframes moveLR { from { transform: translateX(-120vw); } to { transform: translateX(120vw); } }
+    @keyframes moveRL { from { transform: translateX(120vw); } to { transform: translateX(-120vw); } }
+    @keyframes moveTB { from { transform: translateY(-120vh); } to { transform: translateY(120vh); } }
+    @keyframes moveBT { from { transform: translateY(120vh); } to { transform: translateY(-120vh); } }
+    @keyframes moveDiag1 { from { transform: translate(-120vw, -120vh); } to { transform: translate(120vw, 120vh); } }
+    @keyframes moveDiag2 { from { transform: translate(-120vw, 120vh); } to { transform: translate(120vw, -120vh); } }
+
+    /* Main Content */
+    .container {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .profile {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .dp {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #14cfe4cc;
+      box-shadow: 0 0 40px rgba(138, 79, 255, 0.4);
+      margin-bottom: 20px;
+    }
+
+    .name {
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(to right, #8a4fff, #00e5ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .bio {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+
+    .links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* FLIP CARD - SUPER SMOOTH */
+    .flip-card {
+      perspective: 1200px;
+      height: 80px;
+      border-radius: 16px;
+    }
+
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .flip-card:hover .flip-inner {
+      transform: rotateY(180deg) scale(1.07);
+    }
+
+    .flip-front, .flip-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.37);
+    }
+
+    .flip-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(135deg, rgba(138,79,255,0.4), rgba(0,229,255,0.3));
+      border: 2px solid #8a4fff;
+      box-shadow: 0 0 50px rgba(138,79,255,0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3.6rem;
+      color: white;
+    }
+
+    .link-icon { font-size: 1.9rem; margin-right: 20px; width: 50px; text-align: center; }
+    .link-text { font-weight: 600; font-size: 1.2rem; }
+
+    /* Platform Colors */
+    .linkedin { color: #0A66C2; }
+    .github { color: #ffffff; }
+    .facebook { color: #1877F2; }
+    .instagram { color: #E4405F; }
+
+    @media (max-width: 480px) {
+      .name { font-size: 1.9rem; }
+      .flip-front, .flip-back { padding: 0 20px; }
+      .link-icon { font-size: 1.7rem; }
+      .flip-back { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background - Bilkul Safe -->
+  <div class="background">
+    <canvas id="particles"></canvas>
+    <div class="shape circle s1"></div>
+    <div class="shape diamond s2"></div>
+    <div class="shape circle s3"></div>
+    <div class="shape diamond s4"></div>
+    <div class="shape circle s5"></div>
+    <div class="shape diamond s6"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="container">
+    <div class="profile">
+      <img src="./image/my dp.png" alt="Hamza Shabbir" class="dp"/>
+      <h1 class="name">Hamza Shabbir</h1>
+      <p class="bio">Agentic AI | Gen AI & Chatbot Dev | web Dev | BSCS Student | SE Diploma @Aptech | Building Smart Solutions</p>
+    </div>
+
+    <div class="links">
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/hamza-shabbir-ansari-92b0302a5/" target="_blank" class="flip-card">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <i class="fab fa-linkedin link-icon linkedin"></i>
+            <span class="link-text">LinkedIn</span>
+          </div>
+          <div class="flip-back">
+            <i class="fab fa-linkedin linkedin"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- GitHub -->
+      <a href="https://github.com/hamza-shabbir-ansari" target="_blank" class="flip-card">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <i class="fab fa-github link-icon github"></i>
+            <span class="link-text">GitHub</span>
+          </div>
+          <div class="flip-back">
+            <i class="fab fa-github github"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- Facebook -->
+      <a href="https://www.facebook.com/hamzashabbiransari" target="_blank" class="flip-card">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <i class="fab fa-facebook link-icon facebook"></i>
+            <span class="link-text">Facebook</span>
+          </div>
+          <div class="flip-back">
+            <i class="fab fa-facebook facebook"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/hamza_shabbir_ansari/" target="_blank" class="flip-card">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <i class="fab fa-instagram link-icon instagram"></i>
+            <span class="link-text">Instagram</span>
+          </div>
+          <div class="flip-back">
+            <i class="fab fa-instagram instagram"></i>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Particles - Same as yours (100% working)
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particlesArray = [];
+    const colors = ["#8a4fff", "#00e5ff", "#5a189a", "#f2f2f2"];
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speedX = Math.random() * 0.8 - 0.4;
+        this.speedY = Math.random() * 0.8 - 0.4;
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+        if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = this.color;
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particlesArray = [];
+      const number = (window.innerWidth < 768) ? 40 : 80;
+      for (let i = 0; i < number; i++) particlesArray.push(new Particle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particlesArray.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animateParticles);
+    }
+
+    initParticles();
+    animateParticles();
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    });
+
+    // GSAP Entrance
+    gsap.from(".dp", { y: -100, opacity: 0, duration: 1.2, ease: "bounce.out" });
+    gsap.from(".name", { y: 30, opacity: 0, duration: 1, delay: 0.6 });
+    gsap.from(".bio", { y: 30, opacity: 0, duration: 1, delay: 0.8 });
+    gsap.from(".flip-card", { y: 60, opacity: 0, stagger: 0.15, delay: 1.2, duration: 1, ease: "back.out(1.7)" });
+  </script>
+</body>
+</html>
